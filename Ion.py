@@ -104,16 +104,15 @@ train_clean.head()
 """
 
 from sklearn.tree import DecisionTreeClassifier
-classifier = DecisionTreeClassifier(random_state = 0)
+classifier = DecisionTreeClassifier(andom_state = 0, max_depth = 11, 
+                                      min_samples_split = 32, min_samples_leaf = 5)
 classifier.fit(train_clean[['signal','Mean']],train_clean['open_channels'])
 
 prediction = classifier.predict(train_clean[['signal','Mean']])
 
-"""
-now it's very close. We are ready to move to the next step
-plt.plot(prediction,'red')
-plt.plot(train_clean['open_channels'])
-"""
+from sklearn.metrics import f1_score
+F1 = f1_score(y_test, prediction, average = 'macro')
+
 """
 now we clean the test data
 first take a look
@@ -188,3 +187,5 @@ output.to_csv('submission.csv', index=False)
 
 sub = pd.read_csv('submission.csv')
 sub.head()
+
+# score for the project: 89.0
